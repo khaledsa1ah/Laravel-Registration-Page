@@ -79,7 +79,7 @@ class RegisterController extends Controller
         }
     }
 
-    private function validatePasswordComplexity($password) {
+    public function validatePasswordComplexity($password) {
         if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[!@#$%^&*()]/', $password)) {
             return ['success' => false, 'message' => 'Password does not meet complexity requirements!'];
         } else {
