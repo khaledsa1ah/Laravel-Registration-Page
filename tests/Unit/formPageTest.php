@@ -18,5 +18,18 @@ class formPageTest extends TestCase
         $response->assertSee('About');
         $response->assertSee('Contact');
     }
-    
+    public function testFormElemnts(){
+        $response = $this->get('/register');
+
+        $response->assertSee('Full Name:');
+        $response->assertSee('Username:');
+        $response->assertSee('Phone:');
+        $response->assertSee('Address:');
+        $response->assertSee('Email:');
+        $response->assertSee('Password:');
+        $response->assertSee('Confirm Password:');
+        $response->assertSee('User Image:');
+        $response->assertSee('Birthdate:');
+        $response->assertSee('Register');
+    }
 }
