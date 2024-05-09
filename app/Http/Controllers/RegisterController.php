@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -20,40 +19,71 @@ class RegisterController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $confirmPassword = $request->input('confirm_password');
-        $userImage = $request->file('user_image')->getClientOriginalName();
+        
+        // Check if file is uploaded
+        if ($request->hasFile('user_image')) {
+            $userImage = $request->file('user_image')->getClientOriginalName();
+        } else {
+            // Handle if no image is provided
+            $userImage = ''; // Or set a default image name
+        }
 
         // Perform client-side validations first
         // (e.g., password match, required fields, etc.)
         // Client-side validations should be done in JavaScript.
 
-        $dbOps = new DB_Ops();
-        $uploadImage = new Upload();
-        // Check if username already exists in the database
-        if ($dbOps->checkUsernameExists($userName)) {
-            $response = ['success' => false, 'message' => 'Username already exists! Please choose another.'];
-        } else {
-            // Check if passwords match
-            if ($password !== $confirmPassword) {
-                $response = ['success' => false, 'message' => 'Passwords do not match!'];
+        $response = $this->validateUsername($userName);
+        
+        if ($response['success']) {
+            $response = $this->validatePassword($password, $confirmPassword);
+        }
+
+        if ($response['success']) {
+            $response = $this->validatePasswordComplexity($password);
+        }
+
+        if ($response['success']) {
+            $dbOps = new DB_Ops();
+            $uploadImage = new Upload();
+            
+            // Handle file upload (move uploaded file to desired directory)
+            if ($uploadImage->uploadImage($userName)) {
+                // Insert user into the database
+                $uniqueFilename = $userName . '_' . date('Ymd_His') . '_' . $_FILES['user_image']['name'];
+                $dbOps->insertUser($fullName, $userName, $birthdate, $phone, $address, $email, $password, $uniqueFilename);
+                $response = ['success' => true];
             } else {
-                // Validate password complexity (e.g., length, special characters, etc.)
-                if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[!@#$%^&*()]/', $password)) {
-                    $response = ['success' => false, 'message' => 'Password does not meet complexity requirements!'];
-                } else {
-                    // Handle file upload (move uploaded file to desired directory)
-                    if ($uploadImage->uploadImage($userName)) {
-                        // Insert user into the database
-                        $uniqueFilename = $userName . '_' . date('Ymd_His') . '_' . $_FILES['user_image']['name'];
-                        $dbOps->insertUser($fullName, $userName, $birthdate, $phone, $address, $email, $password, $uniqueFilename);
-                        $response = ['success' => true];
-                    } else {
-                        $response = ['success' => false, 'message' => 'Error uploading file!'];
-                    }
-                }
+                $response = ['success' => false, 'message' => 'Error uploading file!'];
             }
         }
 
         // Send JSON response
         return response()->json($response);
+    }
+
+    public function validateUsername($userName) {
+        // Check if username already exists in the database
+        $dbOps = new DB_Ops();
+        if ($dbOps->checkUsernameExists($userName)) {
+            return ['success' => false, 'message' => 'Username already exists! Please choose another.'];
+        } else {
+            return ['success' => true];
+        }
+    }
+
+    private function validatePassword($password, $confirmPassword) {
+        if ($password !== $confirmPassword) {
+            return ['success' => false, 'message' => 'Passwords do not match!'];
+        } else {
+            return ['success' => true];
+        }
+    }
+
+    private function validatePasswordComplexity($password) {
+        if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[!@#$%^&*()]/', $password)) {
+            return ['success' => false, 'message' => 'Password does not meet complexity requirements!'];
+        } else {
+            return ['success' => true];
+        }
     }
 }
