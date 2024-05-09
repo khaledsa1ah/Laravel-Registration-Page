@@ -10,7 +10,7 @@
 
     <div class="container">
         <h2>User Registration</h2>
-        <form id="registrationForm" action="{{ route('registerForm') }}" method="POST" enctype="multipart/form-data">
+        <form id="registrationForm" action="/register" method="POST" enctype="multipart/form-data">
             @csrf
             <div id="imagePreview"></div>
 
