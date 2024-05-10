@@ -43,7 +43,7 @@
             <button type="button" id="checkBirthdate">Check Actors</button>
             <div id="birthdateActors"></div>
 
-            <input type="submit" value="Register">
+            <input type="submit" value="Register" id = "register">
         </form>
     </div>
 
