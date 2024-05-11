@@ -11,6 +11,9 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         // Retrieve form data
+        // Check if English version inputs exist
+    if ($request->has('full_name')) {
+        // English version inputs exist
         $fullName = $request->input('full_name');
         $userName = $request->input('username');
         $birthdate = $request->input('birthdate');
@@ -19,6 +22,17 @@ class RegisterController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $confirmPassword = $request->input('confirm_password');
+    } elseif ($request->has('full_nameAr')) {
+        // Arabic version inputs exist
+        $fullName = $request->input('full_nameAr');
+        $userName = $request->input('usernameAr');
+        $birthdate = $request->input('birthdateAr');
+        $phone = $request->input('phoneAr');
+        $address = $request->input('addressAr');
+        $email = $request->input('emailAr');
+        $password = $request->input('passwordAr');
+        $confirmPassword = $request->input('confirm_passwordAr');
+    } 
         
         // Check if file is uploaded
         if ($request->hasFile('user_image')) {

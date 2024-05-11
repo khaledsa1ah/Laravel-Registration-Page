@@ -11,4 +11,10 @@ Route::get('/register', function () {
     return view('registration');
 });
 
+Route::get('/registerAr', function () {
+    return view('registrationAr');
+});
+
 Route::post('/register', [RegisterController::class, 'register'])->name('registerForm');
+
+Route::post('/registerAr', [RegisterController::class, 'register'])->name('registerForm');
