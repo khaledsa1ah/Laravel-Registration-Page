@@ -213,3 +213,25 @@ footer {
     box-shadow: none; /* Remove the box shadow */
 }
 
+.language-buttons {
+    position: absolute;
+    top: 20px; /* Adjust the distance from the top */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.language-button {
+    display: inline-block;
+    padding: 6px 12px; /* Adjusted padding for smaller size */
+    color: white; /* White text color */
+    text-decoration: none;
+    border: 1px solid white; /* White border */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+.language-button:hover {
+    color: #f0f0f0; /* Lighter white text on hover */
+    border-color: #f0f0f0; /* Lighter white border on hover */
+}
