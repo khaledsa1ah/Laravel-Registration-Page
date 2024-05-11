@@ -16,3 +16,5 @@ Route::get('/registerAr', function () {
 });
 
 Route::post('/register', [RegisterController::class, 'register'])->name('registerForm');
+
+Route::post('/registerAr', [RegisterController::class, 'register'])->name('registerForm');

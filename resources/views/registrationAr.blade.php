@@ -24,7 +24,7 @@
             <input type="text" id="phoneAr" name="phoneAr" required><br><br>
 
             <label for="address">: العنوان</label>
-            <textarea id="addressAr" name="address" required></textarea><br><br>
+            <textarea id="addressAr" name="addressAr" required></textarea><br><br>
 
             <label for="emailAr">: البريد الالكتروني</label>
             <input type="email" id="emailAr" name="emailAr" required><br><br>
@@ -35,8 +35,8 @@
             <label for="confirm_passwordAr">: تأكيد كلمة المرور</label>
             <input type="password" id="confirm_passwordAr" name="confirm_passwordAr" required><br><br>
 
-            <label for="user_imageAr">: صورة المستخدم </label>
-            <input type="file" id="user_imageAr"  name="user_imageAr" required accept="image/*"><br><br>
+            <label for="user_image">: صورة المستخدم </label>
+            <input type="file" id="user_image"  name="user_image" required accept="image/*"><br><br>
 
             <label for="birthdateAr">: تاريخ الميلاد</label>
             <input type="date" id="birthdateAr" name="birthdateAr" required>

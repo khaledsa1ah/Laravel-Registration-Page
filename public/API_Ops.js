@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById('checkBirthdate').addEventListener('click', async function() {
-        const birthdate = document.getElementById('birthdate').value;
+        const birthdateEn = document.getElementById('birthdate');
+        const birthdateAr = document.getElementById('birthdateAr');
+        let birthdate;
+        if(birthdateEn)
+            birthdate = birthdateEn.value;
+        else
+            birthdate = birthdateAr.value;
         const [year, month, day] = birthdate.split('-');
         const urlActorsBornToday = `https://online-movie-database.p.rapidapi.com/actors/list-born-today?month=${month}&day=${day}`;
         const urlActorInfo = 'https://online-movie-database.p.rapidapi.com/auto-complete?q=nm0000138';
