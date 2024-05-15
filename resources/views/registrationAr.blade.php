@@ -1,15 +1,9 @@
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انشاء حساب</title>
-    <link rel="stylesheet" href="{{ asset('styles.css') }}">
-</head>
-<body>
-    @include('layouts.headerAr')
+@extends('layouts.masterAr')
 
-    <div class="container">
-        <h2>انشاء حساب </h2>
+@section('title', 'انشاء حساب')
+
+@section('content')
+<h2>انشاء حساب </h2>
         <form id="registrationFormAr" action="/registerAr" method="POST" enctype="multipart/form-data">
             @csrf
             <div id="imagePreview"></div>
@@ -45,11 +39,4 @@
 
             <input type="submit" value="انشاء ">
         </form>
-    </div>
-
-    @include('layouts.footerAr')
-
-    <script src="{{ asset('API_Ops.js') }}"></script>
-    <script src="{{ asset('script.js') }}"></script>
-</body>
-</html>
+@endsection
