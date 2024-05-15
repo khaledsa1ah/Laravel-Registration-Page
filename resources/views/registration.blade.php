@@ -1,16 +1,10 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
-    <link rel="stylesheet" href="{{ asset('styles.css') }}">
-</head>
-<body>
-    @include('layouts.header')
+@extends('layouts.master')
 
-    <div class="container">
-        <h2>User Registration</h2>
-        <form id="registrationForm" action="/register" method="POST" enctype="multipart/form-data">
+@section('title', 'User Registration')
+
+@section('content')
+    <h2>User Registration</h2>
+    <form id="registrationForm" action="/register" method="POST" enctype="multipart/form-data">
             @csrf
             <div id="imagePreview"></div>
 
@@ -45,11 +39,4 @@
 
             <input type="submit" value="Register" id = "register">
         </form>
-    </div>
-
-    @include('layouts.footer')
-
-    <script src="{{ asset('API_Ops.js') }}"></script>
-    <script src="{{ asset('script.js') }}"></script>
-</body>
-</html>
+@endsection
