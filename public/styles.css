@@ -235,3 +235,13 @@ footer {
     color: #f0f0f0; /* Lighter white text on hover */
     border-color: #f0f0f0; /* Lighter white border on hover */
 }
+
+/* CSS styles for valid input */
+.valid-input {
+    border: 1px solid green;
+}
+
+/* CSS styles for invalid input */
+.invalid-input {
+    border: 1px solid red;
+}

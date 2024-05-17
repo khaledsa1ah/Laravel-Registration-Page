@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInputEn = document.getElementById('email');
     const passwordInputEn = document.getElementById('password');
     const confirmPasswordInputEn = document.getElementById('confirm_password');
-    const userImageInputEn = document.getElementById('user_image');
     const birthdateInputEn = document.getElementById('birthdate');
-    const imagePreviewEn = document.getElementById('imagePreview');
 
     const registrationFormAr = document.getElementById('registrationFormAr');
     const fullNameInputAr = document.getElementById('full_nameAr');
@@ -19,9 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInputAr = document.getElementById('emailAr');
     const passwordInputAr = document.getElementById('passwordAr');
     const confirmPasswordInputAr = document.getElementById('confirm_passwordAr');
-    const userImageInputAr = document.getElementById('user_image');
     const birthdateInputAr = document.getElementById('birthdateAr');
-    const imagePreviewAr = document.getElementById('imagePreview');
 
     let registrationForm;
     let fullNameInput;
@@ -31,58 +27,144 @@ document.addEventListener('DOMContentLoaded', function() {
     let emailInput;
     let passwordInput;
     let confirmPasswordInput;
-    let userImageInput;
     let birthdateInput;
-    let imagePreview;
 
-// Check which form exists and assign corresponding elements to the variables
-if (registrationFormEn) {
-    registrationForm = registrationFormEn;
-    fullNameInput = fullNameInputEn;
-    usernameInput = usernameInputEn;
-    phoneInput = phoneInputEn;
-    addressInput = addressInputEn;
-    emailInput = emailInputEn;
-    passwordInput = passwordInputEn;
-    confirmPasswordInput = confirmPasswordInputEn;
-    userImageInput = userImageInputEn;
-    birthdateInput = birthdateInputEn;
-    imagePreview = imagePreviewEn;
-} else if (registrationFormAr) {
-    registrationForm = registrationFormAr;
-    fullNameInput = fullNameInputAr;
-    usernameInput = usernameInputAr;
-    phoneInput = phoneInputAr;
-    addressInput = addressInputAr;
-    emailInput = emailInputAr;
-    passwordInput = passwordInputAr;
-    confirmPasswordInput = confirmPasswordInputAr;
-    userImageInput = userImageInputAr;
-    birthdateInput = birthdateInputAr;
-    imagePreview = imagePreviewAr;
-}
+    // Check which form exists and assign corresponding elements to the variables
+    if (registrationFormEn) {
+        registrationForm = registrationFormEn;
+        fullNameInput = fullNameInputEn;
+        usernameInput = usernameInputEn;
+        phoneInput = phoneInputEn;
+        addressInput = addressInputEn;
+        emailInput = emailInputEn;
+        passwordInput = passwordInputEn;
+        confirmPasswordInput = confirmPasswordInputEn;
+        birthdateInput = birthdateInputEn;
+    } else if (registrationFormAr) {
+        registrationForm = registrationFormAr;
+        fullNameInput = fullNameInputAr;
+        usernameInput = usernameInputAr;
+        phoneInput = phoneInputAr;
+        addressInput = addressInputAr;
+        emailInput = emailInputAr;
+        passwordInput = passwordInputAr;
+        confirmPasswordInput = confirmPasswordInputAr;
+        birthdateInput = birthdateInputAr;
+    }
 
+    // Function to add warning message next to input fields
+    function addWarningMessage(inputElement, message) {
+        const parent = inputElement.parentElement;
+        let warning = parent.querySelector('.input-warning');
+        if (!warning) {
+            warning = document.createElement('span');
+            warning.classList.add('input-warning');
+            parent.appendChild(warning);
+        }
+        warning.textContent = message;
+    }
 
+    // Function to remove warning message
+    function removeWarningMessage(inputElement) {
+        const parent = inputElement.parentElement;
+        const warning = parent.querySelector('.input-warning');
+        if (warning) {
+            parent.removeChild(warning);
+        }
+    }
 
-    // Add event listener to userImageInput for image preview
-    userImageInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const imgSrc = e.target.result;
-                imagePreview.innerHTML = `<img src="${imgSrc}" alt="User Image">`;
-                imagePreview.style.display = 'block'; // Show the image preview
-            };
-
-            reader.readAsDataURL(file); // Convert file to base64 URL
+    // Event listeners for input fields to validate live
+    fullNameInput.addEventListener('input', function() {
+        const fullName = fullNameInput.value.trim();
+        if (!fullName) {
+            addWarningMessage(fullNameInput, 'Full name is required.');
+        } else {
+            removeWarningMessage(fullNameInput);
         }
     });
 
+    usernameInput.addEventListener('input', function() {
+        const username = usernameInput.value.trim();
+        if (!username) {
+            addWarningMessage(usernameInput, 'Username is required.');
+        } else {
+            removeWarningMessage(usernameInput);
+        }
+    });
+
+    phoneInput.addEventListener('input', function() {
+        const phone = phoneInput.value.trim();
+        if (!phone || !validatePhoneNumber(phone)) {
+            addWarningMessage(phoneInput, 'Invalid phone number format.');
+        } else {
+            removeWarningMessage(phoneInput);
+        }
+    });
+
+    addressInput.addEventListener('input', function() {
+        const address = addressInput.value.trim();
+        if (!address) {
+            addWarningMessage(addressInput, 'Address is required.');
+        } else {
+            removeWarningMessage(addressInput);
+        }
+    });
+
+    emailInput.addEventListener('input', function() {
+        const email = emailInput.value.trim();
+        if (!email || !validateEmail(email)) {
+            addWarningMessage(emailInput, 'Invalid email format.');
+        } else {
+            removeWarningMessage(emailInput);
+        }
+    });
+
+    passwordInput.addEventListener('input', function() {
+        const password = passwordInput.value.trim();
+        if (!password) {
+            addWarningMessage(passwordInput, 'Password is required.');
+        } else {
+            removeWarningMessage(passwordInput);
+        }
+    });
+
+    confirmPasswordInput.addEventListener('input', function() {
+        const confirmPassword = confirmPasswordInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (!confirmPassword || confirmPassword !== password) {
+            addWarningMessage(confirmPasswordInput, 'Passwords do not match.');
+        } else {
+            removeWarningMessage(confirmPasswordInput);
+        }
+    });
+
+    birthdateInput.addEventListener('input', function() {
+        const birthdate = birthdateInput.value.trim();
+        if (!birthdate) {
+            addWarningMessage(birthdateInput, 'Birthdate is required.');
+        } else {
+            removeWarningMessage(birthdateInput);
+        }
+    });
+
+    // Function to validate email format
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Function to validate phone number format
+    function validatePhoneNumber(phone) {
+        // This regex allows numbers and a few common characters like spaces, dashes, and parentheses.
+        const phoneRegex = /^[\d\s()-]+$/;
+        return phoneRegex.test(phone);
+    }
+
+    // Form submission event listener
     registrationForm.addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent form submission by default
 
+        // Validate all fields before submission
         const fullName = fullNameInput.value.trim();
         const username = usernameInput.value.trim();
         const phone = phoneInput.value.trim();
@@ -92,20 +174,35 @@ if (registrationFormEn) {
         const confirmPassword = confirmPasswordInput.value.trim();
         const birthdate = birthdateInput.value.trim();
 
-        // Validate all fields
-        if (!fullName || !username || !phone || !address || !email || !password || !confirmPassword || !birthdate) {
-            alert('All fields are required.');
-            return; // Exit function if any field is empty
+        // Check for empty fields and display warnings
+        if (!fullName) {
+            addWarningMessage(fullNameInput, 'Full name is required.');
+        }
+        if (!username) {
+            addWarningMessage(usernameInput, 'Username is required.');
+        }
+        if (!phone || !validatePhoneNumber(phone)) {
+            addWarningMessage(phoneInput, 'Invalid phone number format.');
+        }
+        if (!address) {
+            addWarningMessage(addressInput, 'Address is required.');
+        }
+        if (!email || !validateEmail(email)) {
+            addWarningMessage(emailInput, 'Invalid email format.');
+        }
+        if (!password) {
+            addWarningMessage(passwordInput, 'Password is required.');
+        }
+        if (!confirmPassword || confirmPassword !== password) {
+            addWarningMessage(confirmPasswordInput, 'Passwords do not match.');
+        }
+        if (!birthdate) {
+            addWarningMessage(birthdateInput, 'Birthdate is required.');
         }
 
-        if (password !== confirmPassword) {
-            alert('Passwords do not match.');
-            return; // Exit function if passwords don't match
-        }
-
-        if (!validateEmail(email)) {
-            alert('Invalid email format.');
-            return; // Exit function if email is invalid
+        // If any field is invalid, stop form submission
+        if (registrationForm.querySelector('.input-warning')) {
+            return;
         }
 
         // Set AJAX headers
@@ -121,148 +218,38 @@ if (registrationFormEn) {
                 headers: headers,
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Registration successful!');
-                    registrationFormEn.reset(); // Reset the form
-                    imagePreviewEn.style.display = 'none'; // Hide the image preview
-                } else {
-                    alert(data.message); // Display error message
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again later.');
-            });
-        } else{
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Registration successful!');
+                        registrationFormEn.reset(); // Reset the form
+                    } else {
+                        alert(data.message); // Display error message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        } else {
             fetch('/registerAr', {
                 method: 'POST',
                 headers: headers,
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Registration successful!');
-                    registrationFormAr.reset(); // Reset the form
-                    imagePreviewAr.style.display = 'none'; // Hide the image preview
-                } else {
-                    alert(data.message); // Display error message
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again later.');
-            });
-        } 
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Registration successful!');
+                        registrationFormAr.reset(); // Reset the form
+                    } else {
+                        alert(data.message); // Display error message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        }
     });
-
-    // Function to validate email format
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-
 });
-
-
-
-
-
-// //Arabic Page
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     const registrationFormAr = document.getElementById('registrationFormAr');
-//     const fullNameInputAr = document.getElementById('full_nameAr');
-//     const usernameInputAr = document.getElementById('usernameAr');
-//     const phoneInputAr = document.getElementById('phoneAr');
-//     const addressInputAr = document.getElementById('addressAr');
-//     const emailInputAr = document.getElementById('emailAr');
-//     const passwordInputAr = document.getElementById('passwordAr');
-//     const confirmPasswordInputAr = document.getElementById('confirm_passwordAr');
-//     const userImageInputAr = document.getElementById('user_imageAr');
-//     const birthdateInputAr = document.getElementById('birthdateAr');
-//     const imagePreviewAr = document.getElementById('imagePreviewAr');
-
-//     // Add event listener to userImageInput for image preview
-//     userImageInputAr.addEventListener('change', function(event) {
-//         const file = event.target.files[0];
-//         if (file) {
-//             const reader = new FileReader();
-
-//             reader.onload = function(e) {
-//                 const imgSrc = e.target.result;
-//                 imagePreviewAr.innerHTML = `<img src="${imgSrc}" alt="User Image">`;
-//                 imagePreviewAr.style.display = 'block'; // Show the image preview
-//             };
-
-//             reader.readAsDataURL(file); // Convert file to base64 URL
-//         }
-//     });
-
-//     registrationFormAr.addEventListener('submit', function(event) {
-//         event.preventDefault(); // Prevent form submission by default
-
-//         const fullName = fullNameInputAr.value.trim();
-//         const username = usernameInputAr.value.trim();
-//         const phone = phoneInputAr.value.trim();
-//         const address = addressInputAr.value.trim();
-//         const email = emailInputAr.value.trim();
-//         const password = passwordInputAr.value.trim();
-//         const confirmPassword = confirmPasswordInputAr.value.trim();
-//         const birthdate = birthdateInputAr.value.trim();
-
-//         // Validate all fields
-//         if (!fullName || !username || !phone || !address || !email || !password || !confirmPassword || !birthdate) {
-//             alert('All fields are required.');
-//             return; // Exit function if any field is empty
-//         }
-
-//         if (password !== confirmPassword) {
-//             alert('Passwords do not match.');
-//             return; // Exit function if passwords don't match
-//         }
-
-//         if (!validateEmail(email)) {
-//             alert('Invalid email format.');
-//             return; // Exit function if email is invalid
-//         }
-
-//         // Set AJAX headers
-//         const headers = new Headers();
-//         headers.append('X-Requested-With', 'XMLHttpRequest');
-
-//         // Send form data via AJAX
-//         const formData = new FormData(registrationFormAr);
-
-//         fetch('/registerAr', {
-//             method: 'POST',
-//             headers: headers,
-//             body: formData
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     alert('Registration successful!');
-//                     registrationFormAr.reset(); // Reset the form
-//                     imagePreviewAr.style.display = 'none'; // Hide the image preview
-//                 } else {
-//                     alert(data.message); // Display error message
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//                 alert('An error occurred. Please try again later.');
-//             });
-//     });
-
-//     // Function to validate email format
-//     function validateEmail(email) {
-//         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//         return emailRegex.test(email);
-//     }
-
-
-// });

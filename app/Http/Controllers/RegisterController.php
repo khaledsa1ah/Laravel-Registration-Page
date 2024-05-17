@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -6,14 +7,16 @@ use Illuminate\Http\Request;
 use App\DB_Ops;
 use App\Upload;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MytestEmail;
+
 class RegisterController extends Controller
 {
     public function register(Request $request)
     {
         // Retrieve form data
-        // Check if English version inputs exist
         if ($request->has('full_name')) {
-            // English version inputs exist
+            // English version inputs
             $fullName = $request->input('full_name');
             $userName = $request->input('username');
             $birthdate = $request->input('birthdate');
@@ -23,7 +26,7 @@ class RegisterController extends Controller
             $password = $request->input('password');
             $confirmPassword = $request->input('confirm_password');
         } elseif ($request->has('full_nameAr')) {
-            // Arabic version inputs exist
+            // Arabic version inputs
             $fullName = $request->input('full_nameAr');
             $userName = $request->input('usernameAr');
             $birthdate = $request->input('birthdateAr');
@@ -41,14 +44,10 @@ class RegisterController extends Controller
         if ($request->hasFile('user_image')) {
             $userImage = $request->file('user_image')->getClientOriginalName();
         } else {
-            // Handle if no image is provided
             $userImage = ''; // Or set a default image name
         }
 
-        // Perform client-side validations first
-        // (e.g., password match, required fields, etc.)
-        // Client-side validations should be done in JavaScript.
-
+        // Perform validations
         $response = $this->validateUsername($userName);
 
         if ($response['success']) {
@@ -63,11 +62,15 @@ class RegisterController extends Controller
             $dbOps = new DB_Ops();
             $uploadImage = new Upload();
 
-            // Handle file upload (move uploaded file to desired directory)
+            // Handle file upload
             if ($uploadImage->uploadImage($userName)) {
                 // Insert user into the database with hashed password
                 $uniqueFilename = $userName . '_' . date('Ymd_His') . '_' . $_FILES['user_image']['name'];
                 $dbOps->insertUser($fullName, $userName, $birthdate, $phone, $address, $email, $hashedPassword, $uniqueFilename);
+
+                // Send the email
+                Mail::to($email)->send(new MytestEmail($fullName, $userName, $email));
+
                 $response = ['success' => true];
             } else {
                 $response = ['success' => false, 'message' => 'Error uploading file!'];
@@ -78,8 +81,8 @@ class RegisterController extends Controller
         return response()->json($response);
     }
 
-
-    public function validateUsername($userName) {
+    public function validateUsername($userName)
+    {
         // Check if username already exists in the database
         $dbOps = new DB_Ops();
         if ($dbOps->checkUsernameExists($userName)) {
@@ -89,7 +92,8 @@ class RegisterController extends Controller
         }
     }
 
-    private function validatePassword($password, $confirmPassword) {
+    private function validatePassword($password, $confirmPassword)
+    {
         if ($password !== $confirmPassword) {
             return ['success' => false, 'message' => 'Passwords do not match!'];
         } else {
@@ -97,7 +101,8 @@ class RegisterController extends Controller
         }
     }
 
-    public function validatePasswordComplexity($password) {
+    public function validatePasswordComplexity($password)
+    {
         if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[!@#$%^&*()]/', $password)) {
             return ['success' => false, 'message' => 'Password does not meet complexity requirements!'];
         } else {

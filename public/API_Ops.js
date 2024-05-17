@@ -1,26 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-    document.getElementById('checkBirthdate').addEventListener('click', async function() {
-        const birthdateEn = document.getElementById('birthdate');
-        const birthdateAr = document.getElementById('birthdateAr');
-        let birthdate;
-        if(birthdateEn)
-            birthdate = birthdateEn.value;
-        else
-            birthdate = birthdateAr.value;
-        const [year, month, day] = birthdate.split('-');
-        const urlActorsBornToday = `https://online-movie-database.p.rapidapi.com/actors/list-born-today?month=${month}&day=${day}`;
-        const urlActorInfo = 'https://online-movie-database.p.rapidapi.com/auto-complete?q=nm0000138';
-
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': 'cb8f5f15d1msh960d3bec330df0fp1dc255jsn3eb03cc725a3',
-                'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com'
-            }
-        };
-
+    document.getElementById('checkBirthdate').addEventListener('click', async function () {
         try {
+
+            const responseKey = await fetch('/api/rapidapi/key');
+            const { key } = await responseKey.json();
+
+
+            const birthdateEn = document.getElementById('birthdate');
+            const birthdateAr = document.getElementById('birthdateAr');
+            let birthdate;
+            if (birthdateEn)
+                birthdate = birthdateEn.value;
+            else
+                birthdate = birthdateAr.value;
+            const [year, month, day] = birthdate.split('-');
+            const urlActorsBornToday = `https://online-movie-database.p.rapidapi.com/actors/list-born-today?month=${month}&day=${day}`;
+
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': key,
+                    'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com'
+                }
+            };
+
             const responseActorsBornToday = await fetch(urlActorsBornToday, options);
             const dataActorsBornToday = await responseActorsBornToday.json();
 
@@ -58,7 +61,4 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
-
-
 });
