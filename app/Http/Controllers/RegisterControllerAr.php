@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -11,19 +12,20 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\MytestEmail;
 use Illuminate\Validation\Rule;
 use App\Models\user;
-class RegisterController extends Controller
+
+class RegisterControllerAr extends Controller
 {
     public function register(Request $request)
     {
         // Define validation rules
         $rules = [
-            'full_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:user,username',
-            'birthdate' => 'required|date',
-            'phone' => 'required|string|max:15',
-            'address' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|regex:/[A-Z]/|regex:/[0-9]/|regex:/[!@#$%^&*()]/',
+            'full_nameAr' => 'required|string|max:255',
+            'usernameAr' => 'required|string|max:255|unique:user,username',
+            'birthdateAr' => 'required|date',
+            'phoneAr' => 'required|string|max:15',
+            'addressAr' => 'required|string|max:255',
+            'emailAr' => 'required|string|email|max:255|unique:users,email',
+            'passwordAr' => 'required|string|min:8|regex:/[A-Z]/|regex:/[0-9]/|regex:/[!@#$%^&*()]/',
             'user_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
@@ -31,7 +33,7 @@ class RegisterController extends Controller
         $validatedData = $request->validate($rules);
 
         // Hash the password
-        $hashedPassword = Hash::make($validatedData['password']);
+        $hashedPassword = Hash::make($validatedData['passwordAr']);
 
         // Handle file upload
         $userImage = '';
@@ -57,13 +59,13 @@ class RegisterController extends Controller
 
 
         // Upload the image
-        $uploadImage->uploadImage($validatedData['username']);
+        $uploadImage->uploadImage($validatedData['usernameAr']);
 
         // Send the email
-        Mail::to($validatedData['email'])->send(new MytestEmail(
-            $validatedData['full_name'],
-            $validatedData['username'],
-            $validatedData['email']
+        Mail::to($validatedData['emailAr'])->send(new MytestEmail(
+            $validatedData['full_nameAr'],
+            $validatedData['usernameAr'],
+            $validatedData['emailAr']
         ));
 
         // Send JSON response

@@ -2,7 +2,6 @@
 
 namespace App;
 
-
 use mysqli;
 
 class DB_Ops
@@ -14,7 +13,7 @@ class DB_Ops
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "registrationpage";
+        $dbname = "form_app";
 
         // Create connection
         $this->conn = new mysqli($servername, $username, $password, $dbname);
@@ -28,7 +27,7 @@ class DB_Ops
     public function insertUser($fullName, $userName, $birthdate, $phone, $address, $email, $password, $userImage)
     {
         // Prepare and bind
-        $stmt = $this->conn->prepare("INSERT INTO user (full_name, username, birthdate, phone, address, email, password, user_image) 
+        $stmt = $this->conn->prepare("INSERT INTO user (full_name, username, birthdate, phone, address, email, password, user_image)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssss", $fullName, $userName, $birthdate, $phone, $address, $email, $password, $userImage);
         $stmt->execute();

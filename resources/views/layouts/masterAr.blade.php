@@ -16,6 +16,6 @@
     @include('layouts.footerAr')
 
     <script src="{{ asset('API_Ops.js') }}"></script>
-    <script src="{{ asset('script.js') }}"></script>
+    <script src="{{ asset('scriptAR.js') }}"></script>
 </body>
 </html>

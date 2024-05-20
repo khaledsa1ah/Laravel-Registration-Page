@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegisterControllerAr;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 
@@ -17,7 +18,7 @@ Route::get('/registerAr', function () {
 
 Route::post('/register', [RegisterController::class, 'register'])->name('registerForm');
 
-Route::post('/registerAr', [RegisterController::class, 'register'])->name('registerForm');
+Route::post('/registerAr', [RegisterControllerAr::class, 'register'])->name('registerAr');
 
 Route::get('/api/rapidapi/key', function () {
     $apiKey = Config::get('rapidapi.key');

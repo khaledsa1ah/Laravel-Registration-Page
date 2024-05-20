@@ -1,16 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const registrationForm = document.getElementById('registrationForm');
-    const fullNameInput = document.getElementById('full_name');
-    const usernameInput = document.getElementById('username');
-    const phoneInput = document.getElementById('phone');
-    const addressInput = document.getElementById('address');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirm_password');
+    const registrationForm = document.getElementById('registrationFormAr');
+    const fullNameInput = document.getElementById('full_nameAr');
+    const usernameInput = document.getElementById('usernameAr');
+    const phoneInput = document.getElementById('phoneAr');
+    const addressInput = document.getElementById('addressAr');
+    const emailInput = document.getElementById('emailAr');
+    const passwordInput = document.getElementById('passwordAr');
+    const confirmPasswordInput = document.getElementById('confirm_passwordAr');
     const userImageInput = document.getElementById('user_image');
-    const birthdateInput = document.getElementById('birthdate');
+    const birthdateInput = document.getElementById('birthdateAr');
     const imagePreview = document.getElementById('imagePreview');
-
 
     // Add event listener to userImageInput for image preview
     userImageInput.addEventListener('change', function (event) {
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             reader.onload = function (e) {
                 const imgSrc = e.target.result;
-                imagePreview.innerHTML = `<img src="${imgSrc}" alt="User Image">`;
+                imagePreview.innerHTML = `<img src="${imgSrc}" alt="صورة المستخدم">`;
                 imagePreview.style.display = 'block'; // Show the image preview
             };
 
@@ -40,12 +39,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for full name input
     fullNameInput.addEventListener('input', () => {
         const fullNameValue = fullNameInput.value.trim();
-        const fullNameError = document.getElementById('full_name-error');
+        const fullNameError = document.getElementById('full_nameAr-error');
 
         if (!fullNameValue) {
-            fullNameError.textContent = 'Full Name is required.';
-        }
-        else {
+            fullNameError.textContent = 'الاسم كامل مطلوب.';
+        } else {
             fullNameError.textContent = ''; // Clear the error message if input is valid
         }
     });
@@ -53,12 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for username input
     usernameInput.addEventListener('input', () => {
         const usernameValue = usernameInput.value.trim();
-        const usernameError = document.getElementById('username-error');
+        const usernameError = document.getElementById('usernameAr-error');
 
         if (!usernameValue) {
-            usernameError.textContent = 'Username is required.';
+            usernameError.textContent = 'اسم المستخدم مطلوب.';
         } else if (/\s/.test(usernameValue)) {
-            usernameError.textContent = 'Username cannot contain spaces.';
+            usernameError.textContent = 'اسم المستخدم لا يمكن أن يحتوي على مسافات.';
         } else {
             usernameError.textContent = ''; // Clear the error message if input is valid
         }
@@ -67,12 +65,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for phone number input
     phoneInput.addEventListener('input', () => {
         const phoneValue = phoneInput.value.trim();
-        const phoneError = document.getElementById('phone-error');
+        const phoneError = document.getElementById('phoneAr-error');
 
         if (!phoneValue) {
-            phoneError.textContent = 'Phone number is required.';
+            phoneError.textContent = 'رقم الهاتف مطلوب.';
         } else if (!/^(010|011|012|015)[0-9]{8}$/.test(phoneValue)) {
-            phoneError.textContent = 'Enter a valid Egyptian mobile number (11 digits starting with 010, 011, 012, or 015).';
+            phoneError.textContent = 'ادخل رقم هاتف محمول مصري صحيح (11 رقم يبدأ بـ 010، 011، 012، أو 015).';
         } else {
             phoneError.textContent = ''; // Clear the error message if input is valid
         }
@@ -80,18 +78,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for address input
     addressInput.addEventListener('input', () => {
-        updateErrorMessage(addressInput, document.getElementById('address-error'), 'Address is required.');
+        updateErrorMessage(addressInput, document.getElementById('addressAr-error'), 'العنوان مطلوب.');
     });
 
     // Event listener for email input
     emailInput.addEventListener('input', () => {
         const emailValue = emailInput.value.trim();
-        const emailError = document.getElementById('email-error');
+        const emailError = document.getElementById('emailAr-error');
 
         if (!emailValue) {
-            emailError.textContent = 'Email is required.';
+            emailError.textContent = 'البريد الإلكتروني مطلوب.';
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
-            emailError.textContent = 'Enter a valid email address.';
+            emailError.textContent = 'ادخل عنوان بريد إلكتروني صحيح.';
         } else {
             emailError.textContent = ''; // Clear the error message if input is valid
         }
@@ -100,39 +98,28 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for password input
     passwordInput.addEventListener('input', () => {
         const passwordValue = passwordInput.value.trim();
-        const passwordError = document.getElementById('password-error');
+        const passwordError = document.getElementById('passwordAr-error');
 
-        updateErrorMessage(passwordInput, passwordError, 'Password is required.');
+        updateErrorMessage(passwordInput, passwordError, 'كلمة المرور مطلوبة.');
 
         if (passwordValue && !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}/.test(passwordValue)) {
-            passwordError.textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+            passwordError.textContent = 'يجب أن تكون كلمة المرور على الأقل 8 أحرف وتحتوي على حرف كبير وحرف صغير ورقم وحرف خاص واحد على الأقل.';
         }
     });
 
     confirmPasswordInput.addEventListener('input', () => {
         const confirmPasswordValue = confirmPasswordInput.value.trim();
         if (!confirmPasswordValue) {
-            document.getElementById('confirm_password-error').textContent = 'Confirm Password is required.';
+            document.getElementById('confirm_passwordAr-error').textContent = 'تأكيد كلمة المرور مطلوب.';
         } else if (passwordInput.value.trim() !== confirmPasswordValue) {
-            document.getElementById('confirm_password-error').textContent = 'Passwords do not match.';
+            document.getElementById('confirm_passwordAr-error').textContent = 'كلمات المرور غير متطابقة.';
         } else {
-            document.getElementById('confirm_password-error').textContent = ''; // Clear the error message if input is valid
+            document.getElementById('confirm_passwordAr-error').textContent = ''; // Clear the error message if input is valid
         }
     });
 
-    userImageInput.addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const imgSrc = e.target.result;
-                imagePreview.innerHTML = `<img src="${imgSrc}" alt="User Image">`;
-                imagePreview.style.display = 'block'; // Show the image preview
-            };
-
-            reader.readAsDataURL(file); // Convert file to base64 URL
-        }
+    birthdateInput.addEventListener('input', () => {
+        updateErrorMessage(birthdateInput, document.getElementById('birthdateAr-error'), 'تاريخ الميلاد مطلوب.');
     });
 
     registrationForm.addEventListener('submit', function (event) {
@@ -155,75 +142,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Validate full name
         if (!fullName) {
-            document.getElementById('full_name-error').textContent = 'Full Name is required.';
+            document.getElementById('full_nameAr-error').textContent = 'الاسم كامل مطلوب.';
             isValid = false;
         }
-
         // Validate username
         if (!username) {
-            document.getElementById('username-error').textContent = 'Username is required.';
+            document.getElementById('usernameAr-error').textContent = 'اسم المستخدم مطلوب.';
             isValid = false;
         } else if (/\s/.test(username)) {
-            document.getElementById('username-error').textContent = 'Username cannot contain spaces.';
+            document.getElementById('usernameAr-error').textContent = 'اسم المستخدم لا يمكن أن يحتوي على مسافات.';
             isValid = false;
         }
 
         // Validate phone number (basic validation)
         if (!phone) {
-            document.getElementById('phone-error').textContent = 'Phone number is required.';
+            document.getElementById('phoneAr-error').textContent = 'رقم الهاتف مطلوب.';
             isValid = false;
         } else if (!/^(010|011|012|015)[0-9]{8}$/.test(phone)) {
-            document.getElementById('phone-error').textContent = 'Enter a valid mobile number.';
+            document.getElementById('phoneAr-error').textContent = 'ادخل رقم هاتف محمول مصري صحيح (11 رقم يبدأ بـ 010، 011، 012، أو 015).';
             isValid = false;
         }
 
         // Validate address
         if (!address) {
-            document.getElementById('address-error').textContent = 'Address is required.';
+            document.getElementById('addressAr-error').textContent = 'العنوان مطلوب.';
             isValid = false;
         }
 
         // Validate email format
         if (!email) {
-            document.getElementById('email-error').textContent = 'Email is required.';
+            document.getElementById('emailAr-error').textContent = 'البريد الإلكتروني مطلوب.';
             isValid = false;
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            document.getElementById('email-error').textContent = 'Enter a valid email address.';
+            document.getElementById('emailAr-error').textContent = 'ادخل عنوان بريد إلكتروني صحيح.';
             isValid = false;
         }
 
         // Validate password
         if (!password) {
-            document.getElementById('password-error').textContent = 'Password is required.';
+            document.getElementById('passwordAr-error').textContent = 'كلمة المرور مطلوبة.';
             isValid = false;
         } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}/.test(password)) {
-            document.getElementById('password-error').textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+            document.getElementById('passwordAr-error').textContent = 'يجب أن تكون كلمة المرور على الأقل 8 أحرف وتحتوي على حرف كبير وحرف صغير ورقم وحرف خاص واحد على الأقل.';
             isValid = false;
         }
 
         // Validate confirm password
         if (!confirmPassword) {
-            document.getElementById('confirm_password-error').textContent = 'Confirm Password is required.';
+            document.getElementById('confirm_passwordAr-error').textContent = 'تأكيد كلمة المرور مطلوب.';
             isValid = false;
         } else if (password !== confirmPassword) {
-            document.getElementById('confirm_password-error').textContent = 'Passwords do not match.';
+            document.getElementById('confirm_passwordAr-error').textContent = 'كلمات المرور غير متطابقة.';
             isValid = false;
         }
 
         // Validate user image
         if (!userImageInput.value) {
-            document.getElementById('user_image-error').textContent = 'User image is required.';
+            document.getElementById('user_image-error').textContent = 'صورة المستخدم مطلوبة.';
             isValid = false;
         }
 
         // Validate birthdate
         if (!birthdate) {
-            document.getElementById('birthdate-error').textContent = 'Birthdate is required.';
+            document.getElementById('birthdateAr-error').textContent = 'تاريخ الميلاد مطلوب.';
             isValid = false;
         }
 
         if (!isValid) {
-            alert('Please fix the errors in the form.');
+            alert('الرجاء تصحيح الأخطاء في النموذج.');
             return;
         }
 
@@ -234,10 +220,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Send form data via AJAX
         const formData = new FormData(registrationForm);
 
-        console.log(formData)
 
-        let fetchUrl = '/register';
 
+        let fetchUrl = '/registerAr';
 
         fetch(fetchUrl, {
             method: 'POST',
@@ -247,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Registration successful!');
+                    alert('تم التسجيل بنجاح!');
                     registrationForm.reset(); // Reset the form
                     imagePreview.style.display = 'none'; // Hide the image preview
                 } else {
@@ -256,7 +241,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again later.');
+                alert('حدث خطأ. الرجاء المحاولة مرة أخرى لاحقًا.');
             });
     });
 });
+

@@ -236,12 +236,30 @@ footer {
     border-color: #f0f0f0; /* Lighter white border on hover */
 }
 
-/* CSS styles for valid input */
-.valid-input {
-    border: 1px solid green;
+.error-message {
+    color: red; /* Error message color */
+    font-size: 14px; /* Font size for error messages */
+    margin-bottom: 5px; /* Bottom margin for error messages */
+    display: block; /* Display error messages as block elements */
 }
 
-/* CSS styles for invalid input */
+/* Position error messages above the input fields */
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    position: absolute;
+    top: -20px; /* Adjust the distance above the input field */
+    left: 0;
+}
+
+
+.valid-input {
+    border: 1px solid green; /* Border color for valid input */
+}
+
 .invalid-input {
-    border: 1px solid red;
+    border: 1px solid red; /* Border color for invalid input */
 }
