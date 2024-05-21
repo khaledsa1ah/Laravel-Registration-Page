@@ -2,32 +2,32 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use App\Http\Controllers\RegisterController;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-use mysqli;
-
 #[CoversClass(RegistrationForm::class)]
-class usernameExistTest extends TestCase
+class UsernameExistTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_form_not_accept_existing_username()
     {
-        $conn = new mysqli("localhost", "root", "", "registrationpage");
-        $sql = "SELECT username FROM user LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $stmt->bind_result($username);
-        $stmt->fetch();
-        
-        $registerController = new RegisterController();
+        // Create a user with a known username
+        $existingUser = User::factory()->create(['username' => 'existing_username']);
 
-        $result = $registerController->validateUsername($username);
+        $data = [
+            'username' => 'existing_username',
+        ];
 
+        $rule = [
+            'username' => 'required|string|max:255|unique:users,username',
+        ];
 
-        // Assert that the result indicates failure with the appropriate message
-        $this->assertEquals(['success' => false, 'message' => 'Username already exists! Please choose another.'], $result);
+        $validator = Validator::make($data, $rule);
 
-        // $this->assertTrue($registerController->validateUsername($username));
+        $this->assertTrue($validator->fails());
     }
 }

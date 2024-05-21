@@ -18,7 +18,7 @@ class RegisterController extends Controller
         // Define validation rules
         $rules = [
             'full_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:user,username',
+            'username' => 'required|string|max:255|unique:users,username',
             'birthdate' => 'required|date',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',

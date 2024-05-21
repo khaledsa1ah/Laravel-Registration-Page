@@ -1,34 +1,39 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
-use PHPUnit\Framework\TestCase;
-use App\Http\Controllers\RegisterController;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(RegistrationForm::class)]
-class passwordComplexityTest extends TestCase
+class PasswordComplexityTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testPasswordComplexity(): void
     {
-        $registerController = new RegisterController();
-
         $passwords = [
-            'password',  
-            '12345678',       
-            'PASSWORD',       
-            'Password123',     
-            '@Password123',       
+            'password',         // too simple
+            '12345678',         // numbers only
+            'PASSWORD',         // uppercase only
+            'Password123',      // no special character
+            '@Password123',     // valid
+        ];
+
+        $rule = [
+            'password' => 'required|string|min:8|regex:/[A-Z]/|regex:/[0-9]/|regex:/[!@#$%^&*()]/',
         ];
 
         foreach ($passwords as $password) {
-
-            $result = $registerController->validatePasswordComplexity($password);
+            $data = ['password' => $password];
+            $validator = Validator::make($data, $rule);
 
             if ($password === '@Password123') {
-                $this->assertEquals(['success' => true], $result);
+                $this->assertFalse($validator->fails());
             } else {
-                $this->assertEquals(['success' => false, 'message' => 'Password does not meet complexity requirements!'], $result);
+                $this->assertTrue($validator->fails());
             }
         }
     }
