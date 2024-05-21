@@ -19,15 +19,16 @@ class LanguageTest extends TestCase
         $response->assertSee('تعرف علينا');
         $response->assertSee('طرق التواصل');
         // Form Page
-        $response->assertSee(': الاسم كامل');
-        $response->assertSee(': اسم المستخدم');
-        $response->assertSee(': رقم الهاتف');
-        $response->assertSee(': العنوان');
-        $response->assertSee(': البريد الالكتروني');
-        $response->assertSee(': كلمة المرور');
-        $response->assertSee(': تأكيد كلمة المرور');
-        $response->assertSee(': صورة المستخدم');
-        $response->assertSee(': تاريخ الميلاد');
+        $response->assertSee('الاسم الكامل:');
+        $response->assertSee('اسم المستخدم:');
+        $response->assertSee('رقم الهاتف:');
+        $response->assertSee('العنوان:');
+        $response->assertSee('البريد الالكتروني:');
+        $response->assertSee('كلمة المرور:');
+        $response->assertSee('تأكيد كلمة المرور:');
+        $response->assertSee('صورة المستخدم:');
+        $response->assertSee('تاريخ الميلاد:');
+        $response->assertSee('تصفح الممثلين');
         $response->assertSee('انشاء');
         // Footer
         $response->assertSee('موقعي');
